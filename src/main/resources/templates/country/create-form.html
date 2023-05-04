@@ -35,6 +35,7 @@
             aria-label="form-select-sm example"
             th:field="*{region.id}"
           >
+            <option selected value="">Choose Region</option>
             <option
               th:each="region : ${regions}"
               th:value="${region.id}"
