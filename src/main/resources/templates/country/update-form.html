@@ -27,10 +27,18 @@
         <div class="mb-3">
           <label for="code" class="form-label">Code</label>
           <input type="text" class="form-control" th:field="*{code}" />
+        </div>
+        <div class="mb-3">
           <label for="name" class="form-label">Name</label>
           <input type="text" class="form-control" th:field="*{name}" />
+        </div>
+        <div class="mb-3">
           <label for="region" class="form-label">Region</label>
-          <select th:field="*{region.id}">
+          <select
+            class="form-control form-control-sm"
+            aria-label="form-select-sm example"
+            th:field="*{region.id}"
+          >
             <option
               th:each="region : ${regions}"
               th:value="${region.id}"
