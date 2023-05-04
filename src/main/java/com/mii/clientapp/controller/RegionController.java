@@ -28,6 +28,12 @@ public class RegionController {
     return "region/index";
   }
 
+  @GetMapping("/{id}")
+  public String getById(@PathVariable Long id, Model model) {
+    model.addAttribute("region", regionService.getById(id));
+    return "region/detail";
+  }
+
   @GetMapping("/create")
   public String createView(Region region) {
     return "region/create-form";

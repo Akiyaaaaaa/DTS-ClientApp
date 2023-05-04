@@ -29,6 +29,12 @@ public class CountryController {
     return "country/index";
   }
 
+  @GetMapping("/{id}")
+  public String getById(@PathVariable Long id, Model model) {
+    model.addAttribute("country", countryService.getById(id));
+    return "country/detail";
+  }
+
   @GetMapping("/create")
   public String createView(Model model, Country country) {
     model.addAttribute("regions", regionService.getAll());

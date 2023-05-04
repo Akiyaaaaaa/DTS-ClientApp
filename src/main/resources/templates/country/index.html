@@ -11,23 +11,69 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css"
+    />
     <title>Country</title>
   </head>
 
   <body>
+    <!-- Nav -->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand fw" href="#">DTSxMCC</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/region}">Region</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/country}">Country</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Content -->
     <div class="container">
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="mt-4 fw-bold">Country</h1>
-        <div class="d-flex justify-content-right align-items-center gap-3">
+        <!-- <div class="d-flex justify-content-right align-items-center gap-3">
           <a href="/" class="btn btn-secondary">Back-Back</a>
           <a th:href="@{/country/create}" class="btn btn-success"
             >Add Country</a
           >
-        </div>
+        </div> -->
+        <button
+          type="button"
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#addCountry"
+          onclick="getRegion()"
+        >
+          Add Country
+        </button>
       </div>
-
-      <table class="table table-stripped table-bordered mt-3">
+      <table
+        class="table table-stripped table-bordered mt-3 text-center"
+        id="table-country"
+      >
         <thead class="table-dark">
           <tr>
             <th class="col-1">No.</th>
@@ -37,13 +83,18 @@
             <th class="col-4">Action</th>
           </tr>
         </thead>
-        <tbody>
+        <!-- <tbody>
           <tr th:each="country, key : ${countries}">
             <td th:text="${key.count}"></td>
             <td th:text="${country.code}">code</td>
             <td th:text="${country.name}">name</td>
             <td th:text="${country.region.name}">region</td>
             <td class="d-flex justify-content-left align-items-center gap-3">
+              <a
+                th:href="@{country/{id} (id = ${country.id})}"
+                class="btn btn-primary px-4"
+                >Details</a
+              >
               <a
                 th:href="@{country/update/{id} (id = ${country.id})}"
                 class="btn btn-warning px-4"
@@ -63,8 +114,187 @@
               </form>
             </td>
           </tr>
-        </tbody>
+        </tbody> -->
       </table>
+
+      <!-- Add -->
+      <div
+        class="modal fade"
+        id="addCountry"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="addCountryLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 fw-bold" id="addCountryLabel">
+                Add Country
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="code" class="form-label">Country Code</label>
+                <input type="text" class="form-control" id="create_code" />
+              </div>
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="create_name" />
+              </div>
+              <div class="mb-3">
+                <label for="region" class="form-label">Region</label>
+                <select
+                  class="form-control form-control-sm"
+                  aria-label="form-select-sm example"
+                  id="select_region"
+                ></select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" onclick="create()">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Update -->
+      <div
+        class="modal fade"
+        id="editTheCountry"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="updateCountryLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 fw-bold" id="updateCountryLabel">
+                Update Country
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="code" class="form-label">Country Code</label>
+                <input type="text" class="form-control" id="update_code" />
+              </div>
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="update_name" />
+              </div>
+              <div class="mb-3">
+                <label for="region" class="form-label">Region</label>
+                <select
+                  class="form-control form-control-sm"
+                  aria-label="form-select-sm example"
+                  id="update_region"
+                ></select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" onclick="update()">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail -->
+      <div
+        class="modal fade"
+        id="detailCountry"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="detailCountryLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 fw-bold" id="detailCountryLabel">
+                Detail Country
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="code" class="form-label fw-bold">Code</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="detail_code"
+                  disabled
+                />
+              </div>
+              <div class="mb-3">
+                <label for="name" class="form-label fw-bold">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="detail_name"
+                  disabled
+                />
+              </div>
+              <div class="mb-3">
+                <label for="region" class="form-label fw-bold">Region</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="detail_region_name"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -73,5 +303,13 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/js/Country.js}"></script>
   </body>
 </html>

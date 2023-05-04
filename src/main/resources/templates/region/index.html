@@ -11,54 +11,214 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css"
+    />
     <title>Region</title>
   </head>
 
   <body>
+    <!-- Nav -->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand fw" href="#">DTSxMCC</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/region}">Region</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/country}">Country</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- content -->
     <div class="container">
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="mt-4 fw-bold">Region</h1>
         <div class="d-flex justify-content-right align-items-center gap-3">
-          <a href="/" class="btn btn-secondary">Back-Back</a>
-          <a th:href="@{/region/create}" class="btn btn-success">Add Region</a>
+          <h1 class="mt-4 fw-bold">Region</h1>
+          <!-- <a href="/" class="btn btn-secondary">Back-Back</a>
+          <a th:href="@{/region/create}" class="btn btn-success">Add Region</a> -->
+          <button
+            type="button"
+            class="btn btn-success"
+            data-bs-toggle="modal"
+            data-bs-target="#addRegion"
+          >
+            Add Region
+          </button>
         </div>
       </div>
 
-      <table class="table table-stripped table-bordered mt-3">
+      <table
+        class="table table-stripped table-bordered mt-3 text-center"
+        id="table-region"
+      >
         <thead class="table-dark">
           <tr>
-            <th class="col-2">No.</th>
-            <th class="col-6">Name</th>
-            <th class="col-4">Action</th>
+            <th class="col-2 text-center">No.</th>
+            <th class="col-6 text-center">Name</th>
+            <th class="col-4 text-center">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr th:each="region, key : ${regions}">
-            <td th:text="${key.count}"></td>
-            <td th:text="${region.name}">name</td>
-            <td class="d-flex justify-content-left align-items-center gap-3">
-              <a
-                th:href="@{region/update/{id} (id = ${region.id})}"
-                class="btn btn-warning px-4"
-                >Edit</a
-              >
-              <form
-                th:action="@{/region/{id} (id = ${region.id})}"
-                th:method="DELETE"
-              >
-                <button
-                  type="submit"
-                  class="btn btn-danger px-4"
-                  onclick="return confirm('Are u sure want to be delete this data!!!')"
-                >
-                  delete
-                </button>
-              </form>
-            </td>
-          </tr>
-        </tbody>
       </table>
+
+      <!-- Add -->
+      <div
+        class="modal fade"
+        id="addRegion"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="addRegionLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 fw-bold" id="addRegionLabel">
+                Add Region
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="name" class="form-label fw-bold">Name</label>
+                <input type="text" class="form-control" id="create_name" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" onclick="create()">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Update -->
+      <div
+        class="modal fade"
+        id="updateRegion"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="updateRegionLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 fw-bold" id="updateRegionLabel">
+                Update Region
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="name" class="form-label fw-bold">Name</label>
+                <input type="text" class="form-control" id="update_name" />
+                <input type="hidden" class="form-control" id="update_id" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" onclick="update()">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail -->
+      <div
+        class="modal fade"
+        id="detailRegion"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="detailRegionLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 fw-bold" id="detailRegionLabel">
+                Detail Region
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="name" class="form-label fw-bold">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="detail_name"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -67,5 +227,13 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/js/Region.js}"></script>
   </body>
 </html>
