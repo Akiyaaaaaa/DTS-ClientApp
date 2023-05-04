@@ -28,14 +28,14 @@
       <table class="table table-stripped table-bordered mt-3">
         <thead class="table-dark">
           <tr>
-            <th class="col-2">Id</th>
+            <th class="col-2">No.</th>
             <th class="col-6">Name</th>
             <th class="col-4">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="region : ${regions}">
-            <td th:text="${region.id}">id</td>
+          <tr th:each="region, key : ${regions}">
+            <td th:text="${key.count}"></td>
             <td th:text="${region.name}">name</td>
             <td class="d-flex justify-content-left align-items-center gap-3">
               <a
