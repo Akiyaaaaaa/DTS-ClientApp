@@ -12,41 +12,45 @@
       crossorigin="anonymous"
     />
 
-    <title>Region</title>
+    <title>Country</title>
   </head>
 
   <body>
     <div class="container">
       <div class="d-flex justify-content-between align-items-center">
-        <h1 class="mt-4 fw-bold">Region</h1>
-        <a th:href="@{/region/create}" class="btn btn-success">Add Region</a>
+        <h1 class="mt-4 fw-bold">Country</h1>
+        <a th:href="@{/country/create}" class="btn btn-success">Add Country</a>
       </div>
 
       <table class="table table-stripped table-bordered mt-3 text-center">
         <thead class="table-dark">
           <tr>
-            <th class="col-2">No</th>
-            <th class="col-6">Name</th>
+            <th class="col-1">No</th>
+            <th class="col-2">Code</th>
+            <th class="col-3">Name</th>
+            <th class="col-2">Region</th>
             <th class="col-4">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="region, key : ${regions}">
+          <tr th:each="country, key : ${countries}">
             <td th:text="${key.count}">no</td>
-            <td th:text="${region.name}">name</td>
+            <td th:text="${country.code}">no</td>
+            <td th:text="${country.name}">name</td>
+            <td th:text="${country.region.name}">country</td>
             <td class="d-flex justify-content-center align-items-center gap-3">
               <a
-                th:href="@{region/{id} (id = ${region.id})}"
+                th:href="@{country/{id} (id = ${country.id})}"
                 class="btn btn-primary px-4"
                 >Detail</a
               >
               <a
-                th:href="@{region/update/{id} (id = ${region.id})}"
+                th:href="@{country/update/{id} (id = ${country.id})}"
                 class="btn btn-warning px-4"
                 >Edit</a
               >
               <form
-                th:action="@{/region/{id} (id = ${region.id})}"
+                th:action="@{/country/{id} (id = ${country.id})}"
                 th:method="DELETE"
               >
                 <button

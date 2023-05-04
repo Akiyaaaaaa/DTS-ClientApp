@@ -1,6 +1,6 @@
 package com.mii.clientapp.service;
 
-import com.mii.clientapp.model.Region;
+import com.mii.clientapp.model.Country;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,56 +11,56 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class RegionService {
+public class CountryService {
 
   @Autowired
   private RestTemplate restTemplate;
 
-  @Value("${server.baseUrl}/region")
+  @Value("${server.baseUrl}/country")
   private String url;
 
-  public List<Region> getAll() {
+  public List<Country> getAll() {
     return restTemplate
       .exchange(
         url,
         HttpMethod.GET,
         null,
-        new ParameterizedTypeReference<List<Region>>() {}
+        new ParameterizedTypeReference<List<Country>>() {}
       )
       .getBody();
   }
 
-  public Region getById(Long id) {
+  public Country getById(Long id) {
     return restTemplate
       .exchange(
         url.concat("/" + id),
         HttpMethod.GET,
         null,
-        new ParameterizedTypeReference<Region>() {}
+        new ParameterizedTypeReference<Country>() {}
       )
       .getBody();
   }
 
-  public Region create(Region region) {
+  public Country create(Country country) {
     return restTemplate
-      .exchange(url, HttpMethod.POST, new HttpEntity(region), Region.class)
+      .exchange(url, HttpMethod.POST, new HttpEntity(country), Country.class)
       .getBody();
   }
 
-  public Region update(long id, Region region) {
+  public Country update(long id, Country country) {
     return restTemplate
       .exchange(
         url + "/" + id,
         HttpMethod.PUT,
-        new HttpEntity(region),
-        Region.class
+        new HttpEntity(country),
+        Country.class
       )
       .getBody();
   }
 
-  public Region delete(long id) {
+  public Country delete(long id) {
     return restTemplate
-      .exchange(url + "/" + id, HttpMethod.DELETE, null, Region.class)
+      .exchange(url + "/" + id, HttpMethod.DELETE, null, Country.class)
       .getBody();
   }
 }
