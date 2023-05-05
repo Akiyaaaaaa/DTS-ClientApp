@@ -38,7 +38,7 @@ public class RestRegionController {
     return regionService.create(region);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   public Region update(@PathVariable Long id, @RequestBody Region region) {
     return regionService.update(id, region);
   }

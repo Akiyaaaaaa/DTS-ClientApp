@@ -1,22 +1,40 @@
-$("#table-country").DataTable({
-  ajax: {
-    url: "/api/country",
-    dataSrc: "",
-  },
-  columns: [
-    {
-      data: null,
-      render: function (data, type, row, meta) {
-        return meta.row + 1;
-      },
+$(document).ready(function () {
+  $.ajax({
+    method: "GET",
+    url: "/api/region",
+    dataType: "JSON",
+    contentType: "application/json",
+    success: (res) => {
+      let x;
+      $.map(res, function (reg, key) {
+        x += `<option value="${reg.id}">${reg.name}</option>`;
+      });
+      $(".select_region").append(x);
     },
-    { data: "code" },
-    { data: "name" },
-    { data: "region.name" },
-    {
-      data: null,
-      render: (data, type, row, meta) => {
-        return `
+    error: (err) => {
+      console.log(err);
+    },
+  });
+
+  $("#table-country").DataTable({
+    ajax: {
+      url: "/api/country",
+      dataSrc: "",
+    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "code" },
+      { data: "name" },
+      { data: "region.name" },
+      {
+        data: null,
+        render: (data, type, row, meta) => {
+          return `
       <button type="button"
       class="btn btn-primary"
       data-bs-toggle="modal"
@@ -40,38 +58,16 @@ $("#table-country").DataTable({
       Delete
       </button>
       `;
+        },
       },
-    },
-  ],
-});
-
-function getRegion() {
-  $.ajax({
-    method: "GET",
-    url: "/api/region",
-    dataType: "JSON",
-    contentType: "application/json",
-    success: (res) => {
-      $("#select_region").empty();
-      $("#select_region").append(
-        "<option selected value=''>Choose Region</option>"
-      );
-      $.map(res, function (reg, key) {
-        $("#select_region").append(
-          `<option value="${reg.id}">${reg.name}</option>`
-        );
-      });
-    },
-    error: (err) => {
-      console.log(err);
-    },
+    ],
   });
-}
+});
 
 function create() {
   let newCode = $("#create_code").val();
   let newCountry = $("#create_name").val();
-  let regId = $("#select_region").val();
+  let regId = $(".select_region").val();
 
   $.ajax({
     method: "POST",
@@ -88,7 +84,7 @@ function create() {
       $("#table-country").DataTable().ajax.reload();
       $("#create_code").val("");
       $("#create_name").val("");
-      $("#select_region").val("");
+      $(".select_region").val("");
       Swal.fire({
         position: "center",
         icon: "success",
@@ -116,27 +112,6 @@ function getById(id) {
   });
 }
 
-function getOption(id) {
-  $.ajax({
-    method: "GET",
-    url: "/api/region",
-    dataType: "JSON",
-    contentType: "application/json",
-    success: (res) => {
-      $.map(res, function (reg, key) {
-        $("#update_region").append(
-          `<option value="${reg.id}"` +
-            (reg.id == id ? "selected" : "") +
-            `>${reg.name}</option>`
-        );
-      });
-    },
-    error: (err) => {
-      console.log(err);
-    },
-  });
-}
-
 function beforeUpdate(id) {
   $.ajax({
     method: "GET",
@@ -145,9 +120,8 @@ function beforeUpdate(id) {
     success: (res) => {
       $("#update_code").val(res.code);
       $("#update_name").val(res.name);
-      // $("#select_region").val(res.region.name);
+      $(".select_region").val(res.region.id);
       $("#update_id").val(res.id);
-      getOption(res.region.id);
     },
   });
 }
@@ -155,7 +129,7 @@ function beforeUpdate(id) {
 function update() {
   let newCode = $("#update_code").val();
   let newCountry = $("#update_name").val();
-  let regId = $("#update_region").val();
+  let regId = $(".select_region").val();
   let idUpdte = $("#update_id").val();
 
   Swal.fire({
@@ -184,7 +158,7 @@ function update() {
           $("#table-country").DataTable().ajax.reload();
           $("#update_code").val("");
           $("#update_name").val("");
-          $("#update_region").val("");
+          $(".select_region").val("");
         },
       });
     }
@@ -194,8 +168,8 @@ function update() {
 function deleteCountry(id) {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
-      confirmButton: "btn btn-success",
-      cancelButton: "btn btn-danger",
+      confirmButton: "btn btn-success mx-2",
+      cancelButton: "btn btn-danger mx-2",
     },
     buttonsStyling: false,
   });

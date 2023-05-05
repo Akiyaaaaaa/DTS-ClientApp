@@ -38,7 +38,7 @@ public class RestCountryController {
     return countryService.create(country);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("{id}")
   public Country update(@PathVariable Long id, @RequestBody Country country) {
     return countryService.update(id, country);
   }

@@ -1,20 +1,21 @@
-$("#table-region").DataTable({
-  ajax: {
-    url: "/api/region",
-    dataSrc: "",
-  },
-  columns: [
-    {
-      data: null,
-      render: function (data, type, row, meta) {
-        return meta.row + 1;
-      },
+$(document).ready(function () {
+  $("#table-region").DataTable({
+    ajax: {
+      url: "/api/region",
+      dataSrc: "",
     },
-    { data: "name" },
-    {
-      data: null,
-      render: (data, type, row, meta) => {
-        return `
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "name" },
+      {
+        data: null,
+        render: (data, type, row, meta) => {
+          return `
         <button 
         type="button" 
         class="btn btn-primary" 
@@ -39,9 +40,10 @@ $("#table-region").DataTable({
         Delete
         </button>
         `;
+        },
       },
-    },
-  ],
+    ],
+  });
 });
 
 function create() {
@@ -130,8 +132,8 @@ function update() {
 function deleteRegion(id) {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
-      confirmButton: "btn btn-success",
-      cancelButton: "btn btn-danger",
+      confirmButton: "btn btn-success mx-2",
+      cancelButton: "btn btn-danger mx-2",
     },
     buttonsStyling: false,
   });

@@ -54,18 +54,11 @@
     <div class="container">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="mt-4 fw-bold">Country</h1>
-        <!-- <div class="d-flex justify-content-right align-items-center gap-3">
-          <a href="/" class="btn btn-secondary">Back-Back</a>
-          <a th:href="@{/country/create}" class="btn btn-success"
-            >Add Country</a
-          >
-        </div> -->
         <button
           type="button"
           class="btn btn-success"
           data-bs-toggle="modal"
           data-bs-target="#addCountry"
-          onclick="getRegion()"
         >
           Add Country
         </button>
@@ -83,38 +76,6 @@
             <th class="col-4">Action</th>
           </tr>
         </thead>
-        <!-- <tbody>
-          <tr th:each="country, key : ${countries}">
-            <td th:text="${key.count}"></td>
-            <td th:text="${country.code}">code</td>
-            <td th:text="${country.name}">name</td>
-            <td th:text="${country.region.name}">region</td>
-            <td class="d-flex justify-content-left align-items-center gap-3">
-              <a
-                th:href="@{country/{id} (id = ${country.id})}"
-                class="btn btn-primary px-4"
-                >Details</a
-              >
-              <a
-                th:href="@{country/update/{id} (id = ${country.id})}"
-                class="btn btn-warning px-4"
-                >Edit</a
-              >
-              <form
-                th:action="@{/country/{id} (id = ${country.id})}"
-                th:method="DELETE"
-              >
-                <button
-                  type="submit"
-                  class="btn btn-danger px-4"
-                  onclick="return confirm('Are u sure want to be delete this data!!!')"
-                >
-                  delete
-                </button>
-              </form>
-            </td>
-          </tr>
-        </tbody> -->
       </table>
 
       <!-- Add -->
@@ -152,10 +113,11 @@
               <div class="mb-3">
                 <label for="region" class="form-label">Region</label>
                 <select
-                  class="form-control form-control-sm"
+                  class="form-control form-control-sm select_region"
                   aria-label="form-select-sm example"
-                  id="select_region"
-                ></select>
+                >
+                  <option selected value="">Choose Region</option>
+                </select>
               </div>
             </div>
             <div class="modal-footer">
@@ -210,9 +172,8 @@
               <div class="mb-3">
                 <label for="region" class="form-label">Region</label>
                 <select
-                  class="form-control form-control-sm"
+                  class="form-control form-control-sm select_region"
                   aria-label="form-select-sm example"
-                  id="update_region"
                 ></select>
               </div>
             </div>
