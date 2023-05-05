@@ -27,6 +27,11 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/country}">Country</a>
                     </li>
+                    <li>
+                        <form th:action="@{/logout}" th:method="POST">
+                            <button class="btn btn-outline-danger">logout</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>

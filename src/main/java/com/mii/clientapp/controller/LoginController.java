@@ -3,6 +3,9 @@ package com.mii.clientapp.controller;
 import com.mii.clientapp.model.dto.request.LoginRequest;
 import com.mii.clientapp.service.LoginService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +20,11 @@ public class LoginController {
 
     @GetMapping
     public String loginView(LoginRequest loginRequest){
-        return "auth/login";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken){
+            return "auth/login";
+        }
+        return "redirect:/region";
     }
 
     @PostMapping
