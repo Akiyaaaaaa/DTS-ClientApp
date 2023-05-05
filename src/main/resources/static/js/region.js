@@ -3,14 +3,15 @@ $("#table-region").DataTable({
     url: "/api/region",
     dataSrc: "",
   },
-  columns: [
-    {
+  columns: [{
       data: null,
       render: function (data, type, row, meta) {
         return meta.row + 1;
       },
     },
-    { data: "name" },
+    {
+      data: "name"
+    },
     {
       data: null,
       render: (data, type, row, meta) => {
@@ -130,8 +131,8 @@ function update() {
 function deleteRegion(id) {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
-      confirmButton: "btn btn-success",
-      cancelButton: "btn btn-danger",
+      confirmButton: "btn btn-success mx-2",
+      cancelButton: "btn btn-danger mx-2",
     },
     buttonsStyling: false,
   });
@@ -148,11 +149,31 @@ function deleteRegion(id) {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire(
-          "Deleted!",
-          "Region success to delete!!!",
-          "success"
-        );
+        $.ajax({
+          method: "DELETE",
+          url: "/api/region/" + id,
+          dataType: "JSON",
+          success: (res) => {
+            $("#table-region").DataTable().ajax.reload();
+          },
+        });
+
+        swalWithBootstrapButtons.fire({
+          title: 'Successfully to delete this region!',
+          width: 500,
+          icon: 'success',
+          padding: '2em',
+          color: '#716add',
+          background: '#fff',
+          showConfirmButton: false,
+          timer: 1500,
+          backdrop: `
+          rgba(0,0,123,0.4)
+          url("https://sweetalert2.github.io/images/nyan-cat.gif")
+          left top
+          no-repeat
+        `
+        })
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
@@ -165,12 +186,5 @@ function deleteRegion(id) {
       }
     });
 
-  $.ajax({
-    method: "DELETE",
-    url: "/api/region/" + id,
-    dataType: "JSON",
-    success: (res) => {
-      $("#table-region").DataTable().ajax.reload();
-    },
-  });
+
 }
