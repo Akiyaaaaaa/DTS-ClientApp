@@ -206,34 +206,34 @@ function deleteCountry(id) {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, cancel!",
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
       reverseButtons: true,
     })
     .then((result) => {
       if (result.isConfirmed) {
         swalWithBootstrapButtons.fire(
           "Deleted!",
-          "Region success to delete!!!",
+          "Country success to delete!!!",
           "success"
         );
+        $.ajax({
+          method: "DELETE",
+          url: "/api/country/" + id,
+          dataType: "JSON",
+          success: (res) => {
+            $("#table-country").DataTable().ajax.reload();
+          },
+        });
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
       ) {
         swalWithBootstrapButtons.fire(
           "Cancelled",
-          "Your imaginary file is safe :)",
+          "Country data is safe :)",
           "error"
         );
       }
     });
-  $.ajax({
-    method: "DELETE",
-    url: "/api/country/" + id,
-    dataType: "JSON",
-    success: (res) => {
-      $("#table-country").DataTable().ajax.reload();
-    },
-  });
 }

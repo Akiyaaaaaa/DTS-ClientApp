@@ -135,15 +135,14 @@ function deleteRegion(id) {
     },
     buttonsStyling: false,
   });
-
   swalWithBootstrapButtons
     .fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, cancel!",
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
       reverseButtons: true,
     })
     .then((result) => {
@@ -153,21 +152,20 @@ function deleteRegion(id) {
           "Region success to delete!!!",
           "success"
         );
+        $.ajax({
+          method: "DELETE",
+          url: "/api/region/" + id,
+          dataType: "JSON",
+          success: (res) => {
+            $("#table-region").DataTable().ajax.reload();
+          },
+        });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         swalWithBootstrapButtons.fire(
           "Cancelled",
-          "Your imaginary file is safe :)",
+          "Region data is safe :)",
           "error"
         );
       }
     });
-
-  $.ajax({
-    method: "DELETE",
-    url: "/api/region/" + id,
-    dataType: "JSON",
-    success: (res) => {
-      $("#table-region").DataTable().ajax.reload();
-    },
-  });
 }
