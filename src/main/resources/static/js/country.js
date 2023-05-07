@@ -129,7 +129,7 @@ function beforeUpdate(id) {
 function update() {
   let newCode = $("#update_code").val();
   let newCountry = $("#update_name").val();
-  let regId = $(".select_region").val();
+  let regId = $("#select_region").val();
   let idUpdte = $("#update_id").val();
 
   Swal.fire({
@@ -158,7 +158,7 @@ function update() {
           $("#table-country").DataTable().ajax.reload();
           $("#update_code").val("");
           $("#update_name").val("");
-          $(".select_region").val("");
+          $("#select_region").val("");
         },
       });
     }

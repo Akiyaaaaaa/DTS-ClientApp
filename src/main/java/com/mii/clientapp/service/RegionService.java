@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -26,9 +27,16 @@ public class RegionService {
   private String url;
 
   public List<Region> getAll() {
-    return restTemplate.exchange(url, HttpMethod.GET, null,
-        new ParameterizedTypeReference<List<Region>>() {
-        }).getBody();
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Authorization", "Basic YmVibzpiZWJvYm8=");
+    return restTemplate
+        .exchange(
+            url,
+            HttpMethod.GET,
+            new HttpEntity(headers),
+            new ParameterizedTypeReference<List<Region>>() {
+            })
+        .getBody();
   }
 
   public Region getById(Long id) {
