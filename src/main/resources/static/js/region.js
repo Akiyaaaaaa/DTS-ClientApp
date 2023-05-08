@@ -66,6 +66,7 @@ function create() {
     data: JSON.stringify({
       name: nameVal,
     }),
+    beforeSend: addCsrfToken(),
     contentType: "application/json",
     success: (res) => {
       $("#addRegion").modal("hide");
@@ -113,6 +114,8 @@ function update() {
         method: "PUT",
         url: "/api/region/" + idVal,
         dataType: "JSON",
+        beforeSend: addCsrfToken(),
+
         data: JSON.stringify({
           name: nameVal,
         }),
@@ -152,6 +155,7 @@ function deleteRegion(id) {
         $.ajax({
           method: "DELETE",
           url: "/api/region/" + id,
+          beforeSend: addCsrfToken(),
           dataType: "JSON",
           success: (res) => {
             $("#table-region").DataTable().ajax.reload();

@@ -2,6 +2,8 @@ package com.mii.clientapp.service;
 
 import com.mii.clientapp.model.Region;
 import java.util.List;
+
+import com.mii.clientapp.util.BasicHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -21,13 +23,13 @@ public class RegionService {
   private String url;
 
   public List<Region> getAll() {
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("Authorization","basic am9oYW46am9oYW5wYXNz"); // johan:johanpass
+//    HttpHeaders headers = new HttpHeaders();
+//    headers.add("Authorization","basic am9oYW46am9oYW5wYXNz"); // johan:johanpass
     return restTemplate
       .exchange(
         url,
         HttpMethod.GET,
-        new HttpEntity(headers),
+        null,
         new ParameterizedTypeReference<List<Region>>() {}
       )
       .getBody();

@@ -2,6 +2,8 @@ package com.mii.clientapp.service;
 
 import com.mii.clientapp.model.Country;
 import java.util.List;
+
+import com.mii.clientapp.util.BasicHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -24,7 +26,7 @@ public class CountryService {
       .exchange(
         url,
         HttpMethod.GET,
-        null,
+        new HttpEntity(BasicHeader.createHeader()),
         new ParameterizedTypeReference<List<Country>>() {}
       )
       .getBody();
@@ -35,7 +37,7 @@ public class CountryService {
       .exchange(
         url.concat("/" + id),
         HttpMethod.GET,
-        null,
+              new HttpEntity(BasicHeader.createHeader()),
         new ParameterizedTypeReference<Country>() {}
       )
       .getBody();
@@ -43,7 +45,7 @@ public class CountryService {
 
   public Country create(Country country) {
     return restTemplate
-      .exchange(url, HttpMethod.POST, new HttpEntity(country), Country.class)
+      .exchange(url, HttpMethod.POST, new HttpEntity(country, BasicHeader.createHeader()), Country.class)
       .getBody();
   }
 

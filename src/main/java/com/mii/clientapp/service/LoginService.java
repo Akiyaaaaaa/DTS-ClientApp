@@ -40,19 +40,19 @@ public class LoginService {
                 }
         );
         if (res.getStatusCode() == HttpStatus.OK){
-            setAuthentication(res.getBody());
+            setAuthentication(res.getBody(), loginRequest.getPassword());
             return true;
         }
         return false;
     }
 
-    public void setAuthentication(LoginResponse res){
+    public void setAuthentication(LoginResponse res, String password){
         List<SimpleGrantedAuthority> authorities = res.getAuthorities().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority))
                 .collect(Collectors.toList());
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(res.getUsername(), null, authorities);
+                new UsernamePasswordAuthenticationToken(res.getUsername(), password, authorities);
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     }
 
