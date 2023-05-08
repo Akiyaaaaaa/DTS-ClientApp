@@ -15,10 +15,10 @@ public class RequestInterceptor implements ClientHttpRequestInterceptor {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (!request.getURI().getPath().equals("api/login")) {
+        if (!request.getURI().getPath().equals("/api/login")) {
             request.getHeaders().add("Authorization", "Basic " +
                     BasicHeader.createToken(
-                            authentication.getPrincipal().toString(),
+                            authentication.getName(),
                             authentication.getCredentials().toString())
             );
         }
