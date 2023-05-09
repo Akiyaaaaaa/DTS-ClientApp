@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/detailLayout}"
+>
+  <body>
+    <section layout:fragment="content">
+      <div class="container">
+        <h1 class="mt-4 fw-bold">Details Employee</h1>
+        <div th:object="${employee}">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              th:field="*{name}"
+              readonly
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              th:field="*{email}"
+              readonly
+            />
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input
+              type="number"
+              class="form-control"
+              th:field="*{phone}"
+              readonly
+            />
+          </div>
+          <div class="mb-3" th:each="role : ${employee.user.roles}">
+            <label for="role" class="form-label">Role</label>
+            <input
+              type="text"
+              class="form-control"
+              th:value="${role.name}"
+              readonly
+            />
+          </div>
+          <a th:href="@{/employee}" class="btn btn-dark">Back</a>
+        </div>
+      </div>
+    </section>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

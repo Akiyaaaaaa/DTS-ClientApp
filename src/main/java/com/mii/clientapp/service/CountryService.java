@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.mii.clientapp.model.Country;
+import com.mii.util.BasicHeader;
 
 @Service
 
@@ -24,7 +25,7 @@ public class CountryService {
 
   public List<Country> getAll() {
     return restTemplate
-        .exchange(url, HttpMethod.GET, null,
+        .exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeader()),
             new ParameterizedTypeReference<List<Country>>() {
             })
         .getBody();
@@ -32,7 +33,7 @@ public class CountryService {
 
   public Country getById(Long id) {
     return restTemplate
-        .exchange(url + "/" + id, HttpMethod.GET, null,
+        .exchange(url + "/" + id, HttpMethod.GET, new HttpEntity(BasicHeader.createHeader()),
             new ParameterizedTypeReference<Country>() {
             })
         .getBody();
@@ -40,13 +41,13 @@ public class CountryService {
 
   public Country create(Country country) {
     return restTemplate
-        .exchange(url, HttpMethod.POST, new HttpEntity(country), Country.class)
+        .exchange(url, HttpMethod.POST, new HttpEntity(country, BasicHeader.createHeader()), Country.class)
         .getBody();
   }
 
   public Country update(Long id, Country country) {
     return restTemplate
-        .exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(country),
+        .exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(country, BasicHeader.createHeader()),
             Country.class)
         .getBody();
   }

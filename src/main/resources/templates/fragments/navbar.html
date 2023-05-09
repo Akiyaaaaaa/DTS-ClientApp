@@ -11,7 +11,7 @@ lines (33 sloc) 1.33 KB
   <body>
     <nav
       th:fragment="navbar"
-      class="navbar navbar-expand-lg bg-dark navbar-dark"
+      class="navbar navbar-expand-lg bg-dark navbar-dark shadow-lg p-3 mb-5"
     >
       <div class="container-fluid">
         <a class="navbar-brand fw" href="#">DTSxMetrodata</a>
@@ -36,10 +36,44 @@ lines (33 sloc) 1.33 KB
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/region}">Region</a>
+                <a
+                  class="nav-link"
+                  th:href="@{/region}"
+                  th:classappend="${#httpServletRequest.requestURI.endsWith('/region')} ? 'active'"
+                  >Region</a
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/country}">Country</a>
+                <a
+                  class="nav-link"
+                  th:href="@{/country}"
+                  th:classappend="${#httpServletRequest.requestURI.endsWith('/country')} ? 'active'"
+                  >Country</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/employee}"
+                  th:classappend="${#httpServletRequest.requestURI.endsWith('/employee')} ? 'active'"
+                  >Employee</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/role}"
+                  th:classappend="${#httpServletRequest.requestURI.endsWith('/role')} ? 'active'"
+                  >Role</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/user}"
+                  th:classappend="${#httpServletRequest.requestURI.endsWith('/role')} ? 'active'"
+                  >User</a
+                >
               </li>
             </ul>
           </div>
@@ -47,7 +81,7 @@ lines (33 sloc) 1.33 KB
             <ul>
               <li class="nav-item">
                 <form th:action="@{logout}" th:method="POST">
-                  <!-- <a class="nav-link" th:href="@{/login}">logout</a> -->
+                  <a class="nav-link" th:href="@{/login}"></a>
                   <button class="btn btn-dark">logout</button>
                 </form>
               </li>

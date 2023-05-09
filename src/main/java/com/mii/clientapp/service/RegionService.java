@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.mii.clientapp.model.Country;
 import com.mii.clientapp.model.Region;
+import com.mii.util.BasicHeader;
 
 import lombok.AllArgsConstructor;
 
@@ -27,13 +28,13 @@ public class RegionService {
   private String url;
 
   public List<Region> getAll() {
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("Authorization", "Basic YmVibzpiZWJvYm8=");
+    // HttpHeaders headers = new HttpHeaders();
+    // headers.add("Authorization", "Basic YmVibzpiZWJvYm8=");
     return restTemplate
         .exchange(
             url,
             HttpMethod.GET,
-            new HttpEntity(headers),
+            null,
             new ParameterizedTypeReference<List<Region>>() {
             })
         .getBody();

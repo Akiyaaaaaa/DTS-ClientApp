@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/main}"
+>
+  <body>
+    <!-- Nav -->
+
+    <!-- content -->
+    <section layout:fragment="content">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h1 class="mt-4 fw-bold">Employee</h1>
+          <div class="d-flex justify-content-right align-items-center gap-3">
+            <a th:href="@{/employee/create}" class="btn btn-success"
+              >Add Employee</a
+            >
+          </div>
+        </div>
+
+        <table
+          class="table display table-stripped table-bordered mt-3 text-center"
+          id="table-employee"
+        >
+          <thead class="table-dark">
+            <tr>
+              <th class="col-1 text-center">No.</th>
+              <th class="col-2 text-center">Name</th>
+              <th class="col-3 text-center">Email</th>
+              <th class="col-1 text-center">Phone</th>
+              <!-- <th class="col-1 text-center">Role</th> -->
+              <th class="col-5 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="employee, i : ${employees}">
+              <td th:text="${i .index + 1}"></td>
+              <td th:text="${employee.name}">name</td>
+              <td th:text="${employee.email}">email</td>
+              <td th:text="${employee.phone}">phone</td>
+              <!-- <td th:text="${employee.user.roles.name}">role</td> -->
+              <!-- <td>
+                <div th:each="role : ${employee.user.roles}">
+                  <span th:text="${role.name}"></span>
+                </div>
+              </td> -->
+              <td class="d-flex justify-content-left align-items-center gap-3">
+                <a
+                  th:href="@{employee/{id} (id = ${employee.id})}"
+                  class="btn btn-primary px-4"
+                  >Detail</a
+                >
+                <a
+                  th:href="@{employee/update/{id} (id = ${employee.id})}"
+                  class="btn btn-warning px-4"
+                  >Edit</a
+                >
+                <form
+                  th:action="@{/employee/{id} (id = ${employee.id})}"
+                  th:method="DELETE"
+                >
+                  <button
+                    type="submit"
+                    class="btn btn-danger px-4"
+                    onclick="return confirm('Are u sure want to be delete this data!!!')"
+                  >
+                    delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <div layout:fragment="script">
+      <script th:src="@{/js/employee.js}"></script>
+    </div>
+  </body>
+</html>

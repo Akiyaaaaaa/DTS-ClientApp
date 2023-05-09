@@ -78,6 +78,7 @@ function create() {
       name: newCountry,
       region: { id: regId },
     }),
+    beforeSend: addCsrfToken(),
     contentType: "application/json",
     success: (res) => {
       $("#addCountry").modal("hide");
@@ -147,6 +148,7 @@ function update() {
         method: "PUT",
         url: "/api/country/" + idUpdte,
         dataType: "JSON",
+        beforeSend: addCsrfToken(),
         data: JSON.stringify({
           code: newCode,
           name: newCountry,
@@ -194,6 +196,7 @@ function deleteCountry(id) {
         $.ajax({
           method: "DELETE",
           url: "/api/country/" + id,
+          beforeSend: addCsrfToken(),
           dataType: "JSON",
           success: (res) => {
             $("#table-country").DataTable().ajax.reload();

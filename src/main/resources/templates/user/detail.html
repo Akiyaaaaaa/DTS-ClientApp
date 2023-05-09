@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/detailLayout}"
+>
+  <body>
+    <section layout:fragment="content">
+      <div class="container">
+        <h1 class="mt-4 fw-bold">Details User</h1>
+        <div th:object="${user}">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              th:field="*{username}"
+              readonly
+            />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="text"
+              class="form-control"
+              th:field="*{password}"
+              readonly
+            />
+          </div>
+          <div class="mb-3" th:each="role : ${user.roles}">
+            <label for="role" class="form-label">Role</label>
+            <input
+              type="text"
+              class="form-control"
+              th:value="${role.name}"
+              readonly
+            />
+          </div>
+          <a th:href="@{/user}" class="btn btn-dark">Back</a>
+        </div>
+      </div>
+    </section>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <div layout:fragment="script"></div>
+  </body>
+</html>

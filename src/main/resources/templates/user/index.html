@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/main}"
+>
+  <body>
+    <!-- Nav -->
+
+    <!-- content -->
+    <section layout:fragment="content">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h1 class="mt-4 fw-bold">User</h1>
+          <div class="d-flex justify-content-right align-items-center gap-3">
+            <a th:href="@{/user/create}" class="btn btn-success">Add User</a>
+          </div>
+        </div>
+
+        <table
+          class="table display table-stripped table-bordered mt-3 text-center"
+          id="table-user"
+        >
+          <thead class="table-dark">
+            <tr>
+              <th class="col-1 text-center">No.</th>
+              <th class="col-3 text-center">Username</th>
+              <th class="col-3 text-center">Password</th>
+              <th class="col-3 text-center">Role</th>
+              <th class="col-5 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="user, i : ${users}">
+              <td th:text="${i.index + 1}"></td>
+              <td th:text="${user.username}">username</td>
+              <td th:text="${user.password}">password</td>
+              <td>
+                <div th:each="role : ${user.roles}">
+                  <span th:text="${role.name}"></span>
+                </div>
+              </td>
+              <td class="d-flex justify-content-left align-items-center gap-3">
+                <a
+                  th:href="@{user/{id} (id = ${user.id})}"
+                  class="btn btn-primary px-4"
+                  >Detail</a
+                >
+                <a
+                  th:href="@{user/update/{id} (id = ${user.id})}"
+                  class="btn btn-warning px-4"
+                  >Edit</a
+                >
+                <form
+                  th:action="@{/user/{id} (id = ${user.id})}"
+                  th:method="DELETE"
+                >
+                  <button
+                    type="submit"
+                    class="btn btn-danger px-4"
+                    onclick="return confirm('Are u sure want to be delete this data!!!')"
+                  >
+                    delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <div layout:fragment="script">
+      <script th:src="@{/js/User.js}"></script>
+    </div>
+  </body>
+</html>

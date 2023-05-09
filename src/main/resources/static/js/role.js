@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  $("#table-region").DataTable({
+  $("#table-role").DataTable({
     ajax: {
-      url: "/api/region",
+      url: "/api/role",
       dataSrc: "",
     },
     columns: [
@@ -16,27 +16,27 @@ $(document).ready(function () {
         data: null,
         render: (data, type, row, meta) => {
           return `
-        <button 
-        type="button" 
-        class="btn btn-primary" 
-        data-bs-toggle="modal" 
-        data-bs-target="#detailRegion" 
+        <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#detailRole"
         onClick="getById(${data.id})">
         Detail
         </button>
-        
-        <button 
-        type="button" 
-        class="btn btn-warning" 
-        data-bs-toggle="modal" 
-        data-bs-target="#updateRegion" 
+
+        <button
+        type="button"
+        class="btn btn-warning"
+        data-bs-toggle="modal"
+        data-bs-target="#updateRole"
         onClick="beforeUpdate(${data.id})">
         Edit
         </button>
 
-        <button 
-        class="btn btn-danger" 
-        onClick="deleteRegion(${data.id})">
+        <button
+        class="btn btn-danger"
+        onClick="deleteRole(${data.id})">
         Delete
         </button>
         `;
@@ -51,7 +51,7 @@ function create() {
 
   $.ajax({
     method: "POST",
-    url: "/api/region",
+    url: "/api/role",
     dataType: "JSON",
     data: JSON.stringify({
       name: newReg,
@@ -59,14 +59,14 @@ function create() {
     beforeSend: addCsrfToken(),
     contentType: "application/json",
     success: (res) => {
-      $("#addRegion").modal("hide");
-      $("#table-region").DataTable().ajax.reload();
+      $("#addRole").modal("hide");
+      $("#table-role").DataTable().ajax.reload();
       $("#create_name").val("");
 
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "Region success to create...",
+        title: "Role success to create...",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -77,7 +77,7 @@ function create() {
 function getById(id) {
   $.ajax({
     method: "GET",
-    url: "/api/region/" + id,
+    url: "/api/role/" + id,
     dataType: "JSON",
     success: (res) => {
       $("#detail_name").val(res.name);
@@ -88,7 +88,7 @@ function getById(id) {
 function beforeUpdate(id) {
   $.ajax({
     method: "GET",
-    url: "/api/region/" + id,
+    url: "/api/role/" + id,
     dataType: "JSON",
     success: (res) => {
       $("#update_name").val(res.name);
@@ -113,7 +113,7 @@ function update() {
     if (result.isConfirmed) {
       $.ajax({
         method: "PUT",
-        url: "/api/region/" + idReg,
+        url: "/api/role/" + idReg,
         dataType: "JSON",
         beforeSend: addCsrfToken(),
         data: JSON.stringify({
@@ -121,17 +121,17 @@ function update() {
         }),
         contentType: "application/json",
         success: (res) => {
-          $("#updateRegion").modal("hide");
-          $("#table-region").DataTable().ajax.reload();
+          $("#updateRole").modal("hide");
+          $("#table-role").DataTable().ajax.reload();
           $("#update_name").val("");
         },
       });
-      Swal.fire("Updated!", "Region success to update...", "success");
+      Swal.fire("Updated!", "Role success to update...", "success");
     }
   });
 }
 
-function deleteRegion(id) {
+function deleteRole(id) {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: "btn btn-success mx-2",
@@ -153,22 +153,22 @@ function deleteRegion(id) {
       if (result.isConfirmed) {
         swalWithBootstrapButtons.fire(
           "Deleted!",
-          "Region success to delete!!!",
+          "Role success to delete!!!",
           "success"
         );
         $.ajax({
           method: "DELETE",
-          url: "/api/region/" + id,
+          url: "/api/role/" + id,
           beforeSend: addCsrfToken(),
           dataType: "JSON",
           success: (res) => {
-            $("#table-region").DataTable().ajax.reload();
+            $("#table-role").DataTable().ajax.reload();
           },
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         swalWithBootstrapButtons.fire(
           "Cancelled",
-          "Region data is safe :)",
+          "Role data is safe :)",
           "error"
         );
       }

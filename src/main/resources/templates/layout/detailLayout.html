@@ -21,7 +21,7 @@
     />
     <style>
       .container {
-        margin: 2rem 4rem;
+        margin: 10rem 5rem;
         padding: 1rem 2rem;
         border-radius: 1rem;
         background-color: white;
@@ -34,12 +34,10 @@
   <body
     th:style="'background-image: url(' + @{/img/bg3.png} + '); background-size: contain'"
   >
-    <!-- navbar -->
-    <div th:replace="fragments/navbar :: navbar"></div>
-    <!-- sidebar -->
     <!-- Content -->
-    <section layout:fragment="content"></section>
-
+    <section layout:fragment="content">
+      <div class="continer bg-white border rounded">CONTENT</div>
+    </section>
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

@@ -26,7 +26,7 @@ public class LoginController {
     if (authentication instanceof AnonymousAuthenticationToken) {
       return "auth/login";
     }
-    return "redirect:/region";
+    return "redirect:/";
   }
 
   @PostMapping
@@ -34,6 +34,6 @@ public class LoginController {
     if (!loginService.login(loginRequest)) {
       return "redirect:/login?error=true";
     }
-    return "redirect:/region";
+    return "redirect:/";
   }
 }

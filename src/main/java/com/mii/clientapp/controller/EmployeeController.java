@@ -10,69 +10,67 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.mii.clientapp.model.Country;
-import com.mii.clientapp.service.CountryService;
-import com.mii.clientapp.service.RegionService;
+import com.mii.clientapp.model.Employee;
+import com.mii.clientapp.service.EmployeeService;
+import com.mii.clientapp.service.UserService;
 
 import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping("/country")
 @AllArgsConstructor
+@RequestMapping("/employee")
 @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-public class CountryController {
+public class EmployeeController {
 
-  private CountryService countryService;
-  private RegionService regionService;
+  private EmployeeService employeeService;
+  private UserService userService;
 
   @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER')")
   @GetMapping
   public String index(Model model) {
-    model.addAttribute("countries", countryService.getAll());
-    return "country/index";
+    model.addAttribute("employees", employeeService.getAll());
+    return "employee/index";
   }
 
   @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER')")
   @GetMapping("/{id}")
   public String getById(@PathVariable Long id, Model model) {
-    model.addAttribute("country", countryService.getById(id));
-    return "country/detail";
+    model.addAttribute("employee", employeeService.getById(id));
+    return "employee/detail";
   }
 
   @PreAuthorize("hasAnyAuthority('CREATE_ADMIN')")
   @GetMapping("/create")
-  public String createView(Model model, Country country) {
-    model.addAttribute("regions", regionService.getAll());
-    return "country/create-form";
+  public String createView(Model model, Employee employee) {
+    model.addAttribute("users", userService.getAll());
+    return "employee/create";
   }
 
   @PreAuthorize("hasAnyAuthority('CREATE_ADMIN')")
   @PostMapping
-  public String create(Country country) {
-    countryService.create(country);
-    return "redirect:/country";
+  public String create(Employee employee) {
+    employeeService.create(employee);
+    return "redirect:/employee";
   }
 
   @PreAuthorize("hasAnyAuthority('UPDATE_ADMIN')")
   @GetMapping("/update/{id}")
   public String updateView(@PathVariable Long id, Model model) {
-    model.addAttribute("country", countryService.getById(id));
-    model.addAttribute("regions", regionService.getAll());
-    return "country/update-form";
+    model.addAttribute("employee", employeeService.getById(id));
+    return "employee/update";
   }
 
   @PreAuthorize("hasAnyAuthority('UPDATE_ADMIN')")
   @PutMapping("/{id}")
-  public String update(@PathVariable Long id, Country country) {
-    countryService.update(id, country);
-    return "redirect:/country";
+  public String update(@PathVariable Long id, Employee employee) {
+    employeeService.update(id, employee);
+    return "redirect:/employee";
   }
 
   @PreAuthorize("hasAnyAuthority('DELETE_ADMIN')")
   @DeleteMapping("/{id}")
   public String delete(@PathVariable Long id) {
-    countryService.delete(id);
-    return "redirect:/country";
+    employeeService.delete(id);
+    return "redirect:/employee";
   }
-
 }
