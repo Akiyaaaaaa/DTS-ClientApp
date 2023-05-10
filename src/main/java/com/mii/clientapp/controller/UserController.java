@@ -31,6 +31,7 @@ public class UserController {
 
   private UserService userService;
   private EmployeeService employeeService;
+  private RoleService roleService;
 
   @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER')")
   @GetMapping
@@ -60,23 +61,11 @@ public class UserController {
     return "redirect:/user";
   }
 
-  // @GetMapping("/create")
-  // public String createView(Model model) {
-  // model.addAttribute("userRequests", new UserRequest());
-  // model.addAttribute("employees", employeeService.getAll());
-  // return "user/create";
-  // }
-
-  // @PostMapping
-  // public String create(UserRequest userRequest) {
-  // userService.create(userRequest);
-  // return "redirect:/user";
-  // }
-
   @PreAuthorize("hasAnyAuthority('UPDATE_ADMIN')")
   @GetMapping("/update/{id}")
   public String updateView(@PathVariable Long id, Model model) {
     model.addAttribute("user", userService.getById(id));
+    model.addAttribute("roles", roleService.getAll());
     return "user/update";
   }
 

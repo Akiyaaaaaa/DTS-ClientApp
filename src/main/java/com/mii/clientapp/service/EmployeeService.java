@@ -23,26 +23,26 @@ public class EmployeeService {
   private String url;
 
   public List<Employee> getAll() {
-    return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeader()),
+    return restTemplate.exchange(url, HttpMethod.GET, null,
         new ParameterizedTypeReference<List<Employee>>() {
         }).getBody();
   }
 
   public Employee getById(Long id) {
-    return restTemplate.exchange(url + "/" + id, HttpMethod.GET, new HttpEntity(BasicHeader.createHeader()),
+    return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
         new ParameterizedTypeReference<Employee>() {
         }).getBody();
   }
 
   public Employee create(Employee employee) {
     return restTemplate
-        .exchange(url, HttpMethod.POST, new HttpEntity(employee, BasicHeader.createHeader()), Employee.class)
+        .exchange(url, HttpMethod.POST, new HttpEntity(employee), Employee.class)
         .getBody();
   }
 
   public Employee update(Long id, Employee employee) {
     return restTemplate
-        .exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(employee, BasicHeader.createHeader()),
+        .exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(employee),
             Employee.class)
         .getBody();
   }

@@ -46,18 +46,18 @@ public class RoleService {
   }
 
   public Role create(Role role) {
-    return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(role, BasicHeader.createHeader()), Role.class)
+    return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(role), Role.class)
         .getBody();
   }
 
   public Role update(Long id, Role role) {
     return restTemplate
-        .exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(role, BasicHeader.createHeader()), Role.class)
+        .exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(role), Role.class)
         .getBody();
   }
 
   public Role delete(Long id) {
     return restTemplate
-        .exchange(url + "/" + id, HttpMethod.DELETE, new HttpEntity(BasicHeader.createHeader()), Role.class).getBody();
+        .exchange(url + "/" + id, HttpMethod.DELETE, null, Role.class).getBody();
   }
 }

@@ -29,14 +29,14 @@ public class UserService {
   private String url;
 
   public List<User> getAll() {
-    return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity(BasicHeader.createHeader()),
+    return restTemplate.exchange(url, HttpMethod.GET, null,
         new ParameterizedTypeReference<List<User>>() {
 
         }).getBody();
   }
 
   public User getById(Long id) {
-    return restTemplate.exchange(url + "/" + id, HttpMethod.GET, new HttpEntity(BasicHeader.createHeader()),
+    return restTemplate.exchange(url + "/" + id, HttpMethod.GET, null,
         new ParameterizedTypeReference<User>() {
 
         }).getBody();
@@ -45,19 +45,6 @@ public class UserService {
   public User create(User user) {
     return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(user), User.class).getBody();
   }
-  // public User create(UserRequest userRequest) {
-  // User user = new User();
-  // user.setUsername(userRequest.getUsername());
-  // user.setPassword(userRequest.getPassword());
-  // Employee employee = new Employee();
-  // employee.setName(userRequest.getName());
-  // employee.setEmail(userRequest.getEmail());
-  // employee.setPhone(userRequest.getPhone());
-  // user.setEmployee(employee);
-  // return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity(user),
-  // User.class).getBody();
-
-  // }
 
   public User update(Long id, User user) {
     return restTemplate.exchange(url + "/" + id, HttpMethod.PUT, new HttpEntity(user), User.class).getBody();
